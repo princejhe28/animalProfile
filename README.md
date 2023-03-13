@@ -14,8 +14,8 @@ Give customers the ability to have an animal profile, this is an additional func
 test module
 
 ## Added Features
-- Customer can select different animal photos as their profile
-- Can save and edit their current animal profile
+Customer can select different animal photos as their profile
+Can save and edit their current animal profile
 
 
 ## Configuration
