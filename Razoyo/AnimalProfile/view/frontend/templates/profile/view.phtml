@@ -1,0 +1,79 @@
+<?php
+/**
+ * @var $block \Razoyo\AnimalProfile\Block\Profile\Photo
+ */
+?>
+<p><?= $block->getGreeting() ?></p>
+<div class="row">
+    <div class="col-md-8">
+        <form name="addData" method="post" id="addData" class="form"
+              action="<?php echo $this->escapeUrl($block->getFormAction()); ?>"
+              data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+              data-mage-init='{"validation":{}}'>
+            <fieldset class="fieldset" style="margin:0">
+                <legend class="legend"><span><?= $block->escapeHtmlAttr(__('Edit Profile Photo')) ?></span></legend>
+                <fieldset class="fieldset row" style="margin:0">
+                    <div class="fields col-md-6">
+                        <div class="field profile required">
+                            <label class="label" for="title"><span><?= $block->
+                                    escapeHtmlAttr(__('Select Photo')) ?></span></label>
+                            <div class="control">
+                                <select class="photo-selector" name="profile" style="width:50%">
+                                    <option value="">Please Select Image</option>
+                                    <?php foreach ($block->getProfileOptions() as $option): ?>
+                                        <option value="<?=$option?>"><?=ucfirst($option)?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field name">
+                            <input type="hidden" name="customer_id" value="<?=$block->getCustomerId();?>">
+                            <input name="form_key" type="hidden" value="<?php /* @escapeNotVerified */ echo $block->getFormKey(); ?>" />
+                        </div>
+                    </div>
+                </fieldset>
+            </fieldset>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button type="submit" class="action submit primary" title="Save"><span><?= $block->
+                            escapeHtmlAttr(__('Save')) ?></span></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="animalid-photo" style="margin-top: 50px"></div>
+
+<script>
+    require(['jquery', 'domReady!'], function ($) {
+
+        setProfilePhoto("<?=$block->getCurrentProfile()?>");
+
+        $('.photo-selector').on('change', function() {
+            let val = $(this).val();
+            console.log(val);
+            $('#animalid-photo').empty();
+            setProfilePhoto(val);
+        });
+
+        // default - photo
+        function setProfilePhoto(profileId) {
+            return $.ajax({
+                url: '<?= $block->getPhotoUrl() ?>?id='+profileId,
+                type: 'GET'
+            }).done(
+                function (response) {
+                    const photoImg = document.createElement('img');
+                    photoImg.alt = 'Profile photo';
+                    photoImg.src = response.photo;
+
+                    const photoDiv = document.getElementById('animalid-photo');
+                    if (photoDiv) {
+                        photoDiv.appendChild(photoImg);
+                    }
+                }
+            );
+        }
+    });
+</script>
