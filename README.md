@@ -18,8 +18,11 @@ Customer can select different animal photos as their profile
 Can save and edit their current animal profile
 
 
-## Configuration
-
+## Installations
+- Create Razoyo/AnimalProfile directory inside app/code
+- git clone princejhe28/animalProfile
+- bin/magento setup:upgrade
+- bin/magento cache:clean
 
 
 
